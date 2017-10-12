@@ -7,12 +7,31 @@ label>input {
 	visibility:hidden;
 	position:absolute;
 }
+.emotions{
+	width: 120px;
+    height: 120px;
+    //background-color: grey;
+}
 label>input+img {
 	cursor:pointer;
 	border:2px solid transparent;
 }
 label>input:checked + img{
-	border:2px solid;
+	border:5px solid;
+}
+div.item{
+	position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 120px;
+	height: 150px
+}
+span.caption {
+    position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: 0;
+  left: 0;
 }
 .content_area{
 	width:80%;
@@ -244,6 +263,10 @@ td.tstamp {
 .audioPlayer {
 	
 	list-style: none;
+}
+audio {
+	width: 600px;
+	
 }
 /******** VA Asset Controls */
 .va_control {

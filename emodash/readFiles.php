@@ -3,12 +3,13 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--<link rel="stylesheet" type="text/css" href="intro/introjs.min.css">-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>-->
+	<script src="jquery.min.js"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	<script src="https://use.fontawesome.com/f0f3d079bf.js"></script>
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="https://use.fontawesome.com/f0f3d079bf.js"></script>-->
 	<link rel="stylesheet" type="text/css" href="main.css">
     
 	<title>Bin Zihnin Sesi</title>
@@ -19,6 +20,7 @@
 	<H2>Annotate!</H2>
 			<!--<H2 class="header"><a href="index.html"><img src="votm_logo.png" width="45" height="45" style="float:left; margin-left: 10px;"></img></a>SESLENDÝR</H2>-->
 			<br>
+			<P>Please listen to the audio file and try to understand the emotion in the voice. Then, select the corresponding emotion from the list below.
 <br><br>
 <?php
 $dir    = 'input/';
@@ -64,20 +66,20 @@ for($x = 0; $x < $arrlen_files; $x++)
 		else
 		{
 			$moreFiles = true;
-			echo "<audio src='input/" . $files1[$x] .  "' controls='controls' id='player'></audio><br><br>";
+			echo "<audio src='input/" . $files1[$x] .  "' controls='controls' id='player'></audio><br><br><br>";
 			echo "<form action='write.php' method=POST><input type='hidden' id='filename' name='filename' value='". $files1[$x] ."'>
-			<label><input type='radio' id='opt_anger' name='emotion' value='anger'><img src='fear.png'></label>
+			<div class='item'><label><input type='checkbox' id='opt_anger' name='emotion' value='anger'><img src='img/anger.png' class='emotions'><span class='caption'>Anger</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_disgust' name='emotion' value='disgust'><img src='img/disgust.png' class='emotions'><span class='caption'>Disgust</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_sad' name='emotion' value='sadness'><img src='img/sadness.png' class='emotions'><span class='caption'>Sadness</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_fear' name='emotion' value='fear'><img src='img/fear.png' class='emotions'><span class='caption'>Fear</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_surprise' name='emotion' value='surprise'><img src='img/surprise.png' class='emotions'><span class='caption'>Surprise</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_happy' name='emotion' value='happiness'><img src='img/happiness.png' class='emotions'><span class='caption'>Happiness</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_neutral' name='emotion' value='neutral'><img src='img/neutral.png' class='emotions'><span class='caption'>Neutral</span></label></div>
 			
-			<input type='radio' id='opt_contempt' name='emotion' value='contempt'><label for='opt_contempt'>Contempt</label>
-			<input type='radio' id='opt_fear' name='emotion' value='fear'><label for='opt_fear'>Fear</label>
-			<input type='radio' id='opt_disgust' name='emotion' value='disgust'><label for='opt_disgust'>Disgust</label>
-			<input type='radio' id='opt_happy' name='emotion' value='happy'><label for='opt_happy'>Happiness</label>
-			<input type='radio' id='opt_sad' name='emotion' value='sad'><label for='opt_sad'>Sad</label>
-			<input type='radio' id='opt_surprise' name='emotion' value='surprise'><label for='opt_surprise'>Surprise</label>
+			
+			
 			</form>";
-			//echo $files1[$x];
-			echo '<br><br><ul class="audioPlayer" id="recordingslist"></ul><h2 style="display:none;">Log</h2><pre id="log"  style="display:none;"></pre>';
-			echo "<br>";
+
 			break;		
 		}
 	}
@@ -90,16 +92,26 @@ if(!$moreFiles)
 }
 else
 {
-echo "<input id='submit' type='submit' value='Submit'>";
+
+echo "<button type='button' id='submit' class='btn btn-primary btn-lg submit'>Submit</button>";
 }
+echo '<br><br><progress max="' . ($arrlen_files - 2) . '" value="' . count($log_array) . '"></progress>';
 ?>
 <script>
+
 $('#submit').click(function() {
+var emotions = '';
+var checkedValues = $('input:checkbox:checked').map(function() {
+    //alert (this.value);
+	emotions = emotions + ',' + this.value;
+}).get();
+//alert(emotions);
     $.ajax({
         url: 'write.php',
         type: 'POST',
         data: {
-            emotion: $('input[name=emotion]:checked').val(),
+            //emotion: $('input[name=emotion]:checked').val(),
+			emotion: emotions,
             filename: $('#filename').val()
         },
         success: function(msg) {
