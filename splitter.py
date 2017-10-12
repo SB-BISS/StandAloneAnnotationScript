@@ -18,10 +18,9 @@ def splitAudioFiles(raw_files_directory, window_storage_directory):
 
     print filenames
     for filename in filenames:
-        print  filename
         audiofile = None
         Freq = None
-        [Fs, x] = audioBasicIO.readAudioFile(filename)
+        [Fs, x] = audioBasicIO.readAudioFile(raw_files_directory+"/"+filename)
         print Fs
         print len(x)
         x = audioBasicIO.stereo2mono(x)  # necessary conversion for pyaudio analysis
