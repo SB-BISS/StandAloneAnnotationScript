@@ -68,3 +68,8 @@ audio::-webkit-media-controls-panel {
 	left: 5px;
 	bottom: 5px;
 }
+.logout{
+	position: fixed;
+	right: 5px;
+	bottom: 5px;
+}

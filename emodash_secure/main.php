@@ -16,12 +16,37 @@
 	<H2>Annotate!</H2>		
 	<br>
 	<!--<P>Please listen to the audio file and try to understand the emotion in the voice. Then, select the corresponding emotion from the list below.-->
-	<P style="padding-left: 25%; padding-right: 25%;">Luister aandachtig naar elk fragment en geef daarna de emotie die u in het fragment gehoord heeft aan door op de emoji te klikken. U kunt meerdere emoties tegelijk aanklikken. Klik op SUBMIT om het volgende fragment te beluisteren.
+	<P style="padding-left: 25%; padding-right: 25%;">Luister aandachtig naar elk fragment en geef daarna de emotie die u in het fragment gehoord heeft aan door op de emoji te klikken. U kunt meerdere emoties tegelijk aanklikken. Wanneer er niemand praat gedurende een fragment, selecteer “SILENCE” in plaats van een emotie.  Klik op SUBMIT om het volgende fragment te beluisteren.
 	<br><br>
 <?php
-session_start();
+require('access.php');
 
-$dir    = 'input/';
+if(!isset($_SESSION['loggedIn']))
+{
+	header("Location: access.php"); 
+	exit();
+}
+else
+{
+	if( $_SESSION['loggedIn'] != true)
+	{
+		header("Location: access.php"); 
+		exit();
+	}
+	else
+	{
+		$loadPage = true;
+		//echo 'folder:';
+		$dir_extension = $_SESSION['inputFolder'];
+		//echo $dir_extension;
+	}
+}
+//session_start();
+
+if($loadPage)
+{
+$dir    = 'input/' . $dir_extension . '/';
+//echo $dir;
 $files1 = scandir($dir);
 natsort($files1);
 //print_r ($files1);
@@ -79,16 +104,17 @@ for($x = 0; $x < $arrlen_files; $x++)
 			}
 			$_SESSION['lastmainfilename'] = $main_file;
 			$moreFiles = true;
+			//echo $dir . $files1[$x];
 			echo "<form action='write.php' method=POST><input type='hidden' id='filename' name='filename' value='". $files1[$x] ."'>";
-			echo "<audio src='input/" . $files1[$x] .  "' controls='controls' id='player'></audio><div class='itemSmall'><label><input type='checkbox' id='opt_silent' name='emotion' value='silent'><img src='img/silence.png' height=64 width=64><span class='caption'>Silent</span></label></div><br><br><br>";
+			echo "<audio src='" . $dir . $files1[$x] .  "' controls='controls' id='player'></audio><br><br><br>";
 			
-			echo "<div class='item'><label><input type='checkbox' id='opt_anger' name='emotion' value='anger'><img src='img/anger.png' class='emotions'><span class='caption'>Anger</span></label></div>
-			<div class='item'><label><input type='checkbox' id='opt_disgust' name='emotion' value='disgust'><img src='img/disgust.png' class='emotions'><span class='caption'>Disgust</span></label></div>
-			<div class='item'><label><input type='checkbox' id='opt_sad' name='emotion' value='sadness'><img src='img/sadness.png' class='emotions'><span class='caption'>Sadness</span></label></div>
-			<div class='item'><label><input type='checkbox' id='opt_fear' name='emotion' value='fear'><img src='img/fear.png' class='emotions'><span class='caption'>Fear</span></label></div>
-			<div class='item'><label><input type='checkbox' id='opt_surprise' name='emotion' value='surprise'><img src='img/surprise.png' class='emotions'><span class='caption'>Surprise</span></label></div>
+			echo "<div class='item'><label><input type='checkbox' id='opt_anger' name='emotion' value='anger'><img src='img/anger.png' class='emotions'><span class='caption'>Boosheid</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_disgust' name='emotion' value='disgust'><img src='img/disgust.png' class='emotions'><span class='caption'>Afkeer</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_sad' name='emotion' value='sadness'><img src='img/sadness.png' class='emotions'><span class='caption'>Verdriet</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_fear' name='emotion' value='fear'><img src='img/fear.png' class='emotions'><span class='caption'>Angst</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_surprise' name='emotion' value='surprise'><img src='img/surprise.png' class='emotions'><span class='caption'>Verbazing</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_happy' name='emotion' value='happiness'><img src='img/happiness.png' class='emotions'><span class='caption'>Happiness</span></label></div>
-			<div class='item'><label><input type='checkbox' id='opt_neutral' name='emotion' value='neutral'><img src='img/neutral.png' class='emotions'><span class='caption'>Neutral</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_neutral' name='emotion' value='neutral'><img src='img/neutral.png' class='emotions'><span class='caption'>Neutraal</span></label></div>
 			
 			</form>";
 
@@ -104,11 +130,16 @@ if(!$moreFiles)
 }
 else
 {
-	echo "<br><button type='button' id='submit' class='btn btn-primary btn-lg submit'>Submit</button>";
+	echo "<br><button id='silent' class='btn btn-danger'>
+    <img src='img/silence.png' height='31' width='31' class='pull-left'></img>  Silence
+</button>
+<button type='button' id='submit' class='btn btn-primary btn-lg submit'>Submit</button>";
 }
 echo '<br><br><progress class="progress_bottom" max="' . ($arrlen_files - 2) . '" value="' . count($log_array) . '"></progress></div>';
+}
 ?>
 	<div class="help"><A href="index.html">Instructions</A></div>
+	<div class="logout"><a href="logout.php">Logout</a></div>
 	<script src="script.js"></script>
 </BODY>
 </HTML>
