@@ -3,16 +3,22 @@ function getFolder($text)
 {
 	$retval = ""; 
     $array = array(
-    "deniz" => "folder_den",
-    "bas" => "folder_bas",
-	"stefano" => "folder_ste",
-	"visara" => "folder_vis",
+    "kennc" => "folder_kennc",
+	"beek" => "folder_beek",
+    "ven" => "folder_ven",
+	"hartkamp" => "folder_hartkamp",
+	"lahaye" => "folder_lahaye",
+	"strolenberg" => "folder_strolenberg",
+    "frijns" => "folder_frijns",
+	"mari" => "folder_mari",
+	"murillo" => "folder_murillo",
+	"polfliet" => "folder_polfliet",
 );
 	$retval = $array[$text];
     return $retval;
 }
 
-$passList = array("deniz", "bas", "stefano", "visara");
+$passList = array("kennc", "beek", "ven", "hartkamp", "lahaye", "strolenberg", "frijns", "mari", "murillo", "polfliet");
 
 
 //put sha1() encrypted password here - example is 'hello'
@@ -24,21 +30,33 @@ if (!isset($_SESSION['loggedIn'])) {
     $_SESSION['loggedIn'] = false;
 }
 
-if (isset($_POST['password'])) {
+if (isset($_POST['password'])) 
+{
     //if (sha1($_POST['password']) == $password) {
 	//if ($_POST['password'] == $password) {
-	  if (in_array($_POST['password'], $passList)) {
+	if (in_array($_POST['password'], $passList)) 
+	{
         $_SESSION['loggedIn'] = true;
 		$_SESSION['inputFolder'] = getFolder($_POST['password']);
+		if($_POST['password']=='kennc')
+		{
+			$_SESSION['dataFile'] = 'data_agent.txt';
+		}
+		else
+		{
+			$_SESSION['dataFile'] = 'data_controller.txt';
+		}
 		echo '<a href="logout.php">Logout</a>';
 		header('Location: main.php');
 		exit();
-    } else {
+    } 
+	else 
+	{
 		echo '<a href="access.php">Login</a><br>';
         die ('Incorrect password, please try logging in again');
     }
 } 
-echo '<a href="logout.php">Logout</a>';
+echo '<div class="logout"><a href="logout.php">Logout</a></div>';
 if (!$_SESSION['loggedIn']): ?>
 
 <HTML lang="en">

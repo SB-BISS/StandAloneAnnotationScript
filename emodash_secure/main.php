@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+require('access.php');
+?>
 <html lang="en">
 <HEAD>
 	<meta charset="UTF-8">
@@ -20,7 +23,7 @@
 	<P style="padding-left: 25%; padding-right: 25%;"><u>Belangrijk:</u> Wanneer u meer dan één persoon hoort praten of wanneer u geen stem hoort gedurende een fragment, selecteer dan "SKIP" in plaats van een emotie. 
 	<br><br>
 <?php
-require('access.php');
+
 
 if(!isset($_SESSION['loggedIn']))
 {
@@ -39,6 +42,7 @@ else
 		$loadPage = true;
 		//echo 'folder:';
 		$dir_extension = $_SESSION['inputFolder'];
+		$data_file = $_SESSION['dataFile'];
 		//echo $dir_extension;
 	}
 }
@@ -56,7 +60,10 @@ natsort($files1);
 $files1 = array_values($files1);
 //print_r ($files1);
 $log_array = array();
-$myfile = fopen("data.txt", "r") or die("Unable to open file!");
+// below is the original design that uses the data.txt
+//$myfile = fopen("data.txt", "r") or die("Unable to open file!");
+// below is the new design that uses two different data_xyz.txt files depending on the user
+$myfile = fopen($data_file, "r") or die("Unable to open file!");
 // Output one line until end-of-file
 while(!feof($myfile)) {
   //echo fgets($myfile) . "<br>";
@@ -98,31 +105,41 @@ for($x = 0; $x < $arrlen_files; $x++)
 				}
 				else
 				{
-					echo "<BR><BR>";
+					echo "<BR>";
 				}
 			}
 			else
 			{
-				echo "<BR><BR>";
+				echo "<BR>";
 			}
 			$_SESSION['lastmainfilename'] = $main_file;
 			$moreFiles = true;
 			//echo $dir . $files1[$x];
 			echo "<form action='write.php' method=POST><input type='hidden' id='filename' name='filename' value='". $files1[$x] ."'>";
+			echo "<input type='hidden' id='data_file' name='data_file' value='". $data_file ."'>";
 			echo "<audio src='" . $dir . $files1[$x] .  "' controls='controls' id='player'></audio><br><br><br>";
 			
-			echo "<div class='item'><label><input type='checkbox' id='opt_anger' name='emotion' value='anger'><img src='img/anger.png' class='emotions'><span class='caption'>Boosheid</span></label></div>
+			echo "<div style='border:1px solid black; width:70%; margin-left: 15%; margin-right: 15%; padding:10px;'>
+			<P style='padding-left: 25%; padding-right: 25%;'>AUB selecteer een of merdere van de volgende emoties:
+			<div class='item'><label><input type='checkbox' id='opt_anger' name='emotion' value='anger'><img src='img/anger.png' class='emotions'><span class='caption'>Boosheid</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_disgust' name='emotion' value='disgust'><img src='img/disgust.png' class='emotions'><span class='caption'>Afkeer</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_sad' name='emotion' value='sadness'><img src='img/sadness.png' class='emotions'><span class='caption'>Verdriet</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_fear' name='emotion' value='fear'><img src='img/fear.png' class='emotions'><span class='caption'>Angst</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_surprise' name='emotion' value='surprise'><img src='img/surprise.png' class='emotions'><span class='caption'>Verbazing</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_opluchting' name='emotion' value='opluchting'><img src='img/opluchting.png' class='emotions'><span class='caption'>Opluchting</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_happy' name='emotion' value='happiness'><img src='img/happiness.png' class='emotions'><span class='caption'>Happiness</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_neutral' name='emotion' value='neutral'><img src='img/neutral.png' class='emotions'><span class='caption'>Neutraal</span></label></div>
+			</div>
 			
 			<br>
+			
+			<br>
+			<div style=' width:70%; margin-left: 15%; margin-right: 15%; padding:10px;'>
+			<P style='padding-left: 25%; padding-right: 25%;'>Naast de emoties kunt u aanvullend nog een van de volgende situaties identificeren:
 			<div class='item'><label><input type='checkbox' id='opt_onzekerheid' name='emotion' value='onzekerheid'><img src='img/onzekerheid.png' class='emotions'><span class='caption'>Onzekerheid</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_wantrouwen' name='emotion' value='wantrouwen'><img src='img/wantrouwen.png' class='emotions'><span class='caption'>Wantrouwen</span></label></div>
-			<div class='item'><label><input type='checkbox' id='opt_opluchting' name='emotion' value='opluchting'><img src='img/opluchting.png' class='emotions'><span class='caption'>Opluchting</span></label></div>
+			</div>
+			
 			</form>";
 
 			break;		
@@ -146,7 +163,7 @@ echo '<br><br><progress class="progress_bottom" max="' . ($arrlen_files - 2) . '
 }
 ?>
 	<div class="help"><A href="index.html">Instructions</A></div>
-	<div class="logout"><a href="logout.php">Logout</a></div>
+	
 	<script src="script.js"></script>
 </BODY>
 </HTML>

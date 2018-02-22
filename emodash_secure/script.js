@@ -6,17 +6,26 @@ var checkedValues = $('input:checkbox:checked').map(function() {
 }).get();
 if(emotions.length > 1)
 {
-    $.ajax({
-        url: 'write.php',
-        type: 'POST',
-        data: {
-			emotion: emotions,
-            filename: $('#filename').val()
-        },
-        success: function(msg) {
-			location.reload();
-        }               
-    });
+	//alert(emotions);
+	if(!emotions.includes('anger') && !emotions.includes('disgust') && !emotions.includes('sadness') && !emotions.includes('fear') && !emotions.includes('surprise') && !emotions.includes('opluchting') && !emotions.includes('happiness') && !emotions.includes('neutral'))
+	{
+		alert("Please select an emoticon from the box before submitting.");
+	}
+	else
+	{
+		$.ajax({
+			url: 'write.php',
+			type: 'POST',
+			data: {
+				emotion: emotions,
+				filename: $('#filename').val(),
+				data_file: $('#data_file').val()
+			},
+			success: function(msg) {
+				location.reload();
+			}               
+		});
+	}
 }
 else
 {

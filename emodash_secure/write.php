@@ -2,7 +2,8 @@
 //echo ($_POST['filename']);
 //echo ($_POST['emotion']);
 
-$myfile = fopen("data.txt", "a") or die("Unable to open file!");
+$data_file = $_POST['data_file'];
+$myfile = fopen($data_file, "a") or die("Unable to open file!");
 
 $timestamp = date("Y-m-d H:i:s");
 $file_annotated = $_POST['filename'];
@@ -15,6 +16,9 @@ $fear = '0';
 $surprise = '0';
 $happiness = '0';
 $neutral = '0';
+$relief = '0';
+$insecurity = '0';
+$distrust = '0';
 
 if (strpos($emotions_raw, 'anger') !== false) 
 {
@@ -44,8 +48,20 @@ if (strpos($emotions_raw, 'neutral') !== false)
 {
     $neutral = '1';
 }
+if (strpos($emotions_raw, 'opluchting') !== false) 
+{
+    $relief = '1';
+}
+if (strpos($emotions_raw, 'onzekerheid') !== false) 
+{
+    $insecurity = '1';
+}
+if (strpos($emotions_raw, 'wantrouwen') !== false) 
+{
+    $distrust = '1';
+}
 
-$emotions_csv = $anger . ',' . $disgust . ',' . $sadness . ',' . $fear . ',' . $surprise . ',' . $happiness . ',' . $neutral;
+$emotions_csv = $anger . ',' . $disgust . ',' . $sadness . ',' . $fear . ',' . $surprise . ',' . $happiness . ',' . $neutral . ',' . $relief . ',' . $insecurity . ',' . $distrust;
 
 $txt = $file_annotated . ',' . $timestamp . ',' . $emotions_csv . "\r\n";
 fwrite($myfile, $txt);
