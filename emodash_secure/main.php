@@ -13,10 +13,11 @@
 <BODY>
 	<div class="container" style="width: 100%;">
 	
-	<H2>Annotate!</H2>		
+	<H2>Annoteren!</H2>		
 	<br>
 	<!--<P>Please listen to the audio file and try to understand the emotion in the voice. Then, select the corresponding emotion from the list below.-->
-	<P style="padding-left: 25%; padding-right: 25%;">Luister aandachtig naar elk fragment en geef daarna de emotie die u in het fragment gehoord heeft aan door op de emoji te klikken. U kunt meerdere emoties tegelijk aanklikken. Wanneer er niemand praat gedurende een fragment, selecteer “SILENCE” in plaats van een emotie.  Klik op SUBMIT om het volgende fragment te beluisteren.
+	<P style="padding-left: 25%; padding-right: 25%;">Luister aandachtig naar elk fragment en geef daarna de emotie die u in het fragment gehoord heeft aan door op de emoji te klikken. Het is al voldoende als u nuanceverschillen van een van de onderstaande emoties kunt identificeren. Ga uit van uw eerste ingeving. Let vooral op intonatie, de inhoud is van ondergeschikt belang. Ook kunt u meerdere emoties tegelijk aangeven, als u meer dan een emotie in een fragment identificeert. Selecteer "Neutraal" als er geen specifieke emotie te horen is. Klik op "SUBMIT" om het volgende fragment te beluisteren.
+	<P style="padding-left: 25%; padding-right: 25%;"><u>Belangrijk:</u> Wanneer u meer dan één persoon hoort praten of wanneer u geen stem hoort gedurende een fragment, selecteer dan "SKIP" in plaats van een emotie. 
 	<br><br>
 <?php
 require('access.php');
@@ -42,6 +43,8 @@ else
 	}
 }
 //session_start();
+
+$passList = array("deniz", "bas", "stefano", "visara"); ///// USRNAME
 
 if($loadPage)
 {
@@ -116,6 +119,10 @@ for($x = 0; $x < $arrlen_files; $x++)
 			<div class='item'><label><input type='checkbox' id='opt_happy' name='emotion' value='happiness'><img src='img/happiness.png' class='emotions'><span class='caption'>Happiness</span></label></div>
 			<div class='item'><label><input type='checkbox' id='opt_neutral' name='emotion' value='neutral'><img src='img/neutral.png' class='emotions'><span class='caption'>Neutraal</span></label></div>
 			
+			<br>
+			<div class='item'><label><input type='checkbox' id='opt_onzekerheid' name='emotion' value='onzekerheid'><img src='img/onzekerheid.png' class='emotions'><span class='caption'>Onzekerheid</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_wantrouwen' name='emotion' value='wantrouwen'><img src='img/wantrouwen.png' class='emotions'><span class='caption'>Wantrouwen</span></label></div>
+			<div class='item'><label><input type='checkbox' id='opt_opluchting' name='emotion' value='opluchting'><img src='img/opluchting.png' class='emotions'><span class='caption'>Opluchting</span></label></div>
 			</form>";
 
 			break;		
@@ -130,10 +137,10 @@ if(!$moreFiles)
 }
 else
 {
-	echo "<br><button id='silent' class='btn btn-danger'>
-    <img src='img/silence.png' height='31' width='31' class='pull-left'></img>  Silence
+	echo "<br><button id='silent' class='btn btn-lg btn-danger' style='width:150px;'>
+      SKIP
 </button>
-<button type='button' id='submit' class='btn btn-primary btn-lg submit'>Submit</button>";
+<button type='button' id='submit' class='btn btn-primary btn-lg submit' style='width:150px;'>SUBMIT</button>";
 }
 echo '<br><br><progress class="progress_bottom" max="' . ($arrlen_files - 2) . '" value="' . count($log_array) . '"></progress></div>';
 }
