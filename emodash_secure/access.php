@@ -3,7 +3,7 @@ function getFolder($text)
 {
 	$retval = ""; 
     $array = array(
-    "kennc" => "folder_kennc",
+    "kenn" => "folder_kenn",
 	"beek" => "folder_beek",
     "ven" => "folder_ven",
 	"hartkamp" => "folder_hartkamp",
@@ -13,12 +13,13 @@ function getFolder($text)
 	"mari" => "folder_mari",
 	"murillo" => "folder_murillo",
 	"polfliet" => "folder_polfliet",
+	"groen" => "folder_groen",
 );
 	$retval = $array[$text];
     return $retval;
 }
 
-$passList = array("kennc", "beek", "ven", "hartkamp", "lahaye", "strolenberg", "frijns", "mari", "murillo", "polfliet");
+$passList = array("kenn", "beek", "ven", "hartkamp", "lahaye", "strolenberg", "frijns", "mari", "murillo", "polfliet", "groen");
 
 
 //put sha1() encrypted password here - example is 'hello'
@@ -38,7 +39,7 @@ if (isset($_POST['password']))
 	{
         $_SESSION['loggedIn'] = true;
 		$_SESSION['inputFolder'] = getFolder($_POST['password']);
-		if($_POST['password']=='kennc')
+		if($_POST['password']=='kenn')
 		{
 			$_SESSION['dataFile'] = 'data_agent.txt';
 		}
