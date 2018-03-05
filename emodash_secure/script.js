@@ -47,7 +47,8 @@ if(emotions.length < 1)
         type: 'POST',
         data: {
 			emotion: emotions,
-            filename: $('#filename').val()
+            filename: $('#filename').val(),
+			data_file: $('#data_file').val()
         },
         success: function(msg) {
 			location.reload();
