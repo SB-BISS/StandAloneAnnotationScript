@@ -11,6 +11,7 @@ from pydub import AudioSegment
 import sys
 
 
+
 def extract_all(filepath="./",filename="./features.csv"):
     filenames = [os.path.join(filepath,name) for name in os.listdir(filepath) if not name == '.DS_Store' and name.__contains__(".wav")]
     only_names = [name for name in os.listdir(filepath) if not name == '.DS_Store' and name.__contains__(".wav")]
