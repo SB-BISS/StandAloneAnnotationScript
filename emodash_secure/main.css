@@ -1,0 +1,75 @@
+body{
+	text-align:center;
+	background-color:#E3E3E3;
+}
+
+label>input {
+	visibility:hidden;
+	position:absolute;
+}
+
+.emotions{
+	width: 120px;
+    height: 120px;
+}
+
+label>input+img {
+	cursor:pointer;
+	border:2px solid transparent;
+}
+
+label>input:checked + img{
+	border:5px solid;
+}
+
+div.item{
+	position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 120px;
+	height: 150px
+}
+div.itemSmall{
+	position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 64px;
+	height: 84px
+}
+
+span.caption {
+    position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+}
+
+.progress_bottom{
+	position: float;
+	padding-top: 20px;
+	width: 20%; 
+}
+
+audio::-internal-media-controls-download-button {
+    display:none;
+}
+
+audio::-webkit-media-controls-enclosure {
+    overflow:hidden;
+}
+
+audio::-webkit-media-controls-panel {
+    width: calc(100% + 30px); /* Adjust as needed */
+}
+
+.help{
+	position: fixed;
+	left: 5px;
+	bottom: 5px;
+}
+.logout{
+	position: fixed;
+	right: 5px;
+	bottom: 5px;
+}
